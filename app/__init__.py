@@ -28,3 +28,9 @@ def main(config: "Config", filename: str):
     # create folders (directories) for the results, if they don't exist
     if not os.path.exists(location):
         os.makedirs(location)
+
+    df = pd.read_excel(os.path.join(config.DATA_LOCATION, filename),
+                        header=config.HEADER_ROW)
+
+    print(df)
+    
