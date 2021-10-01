@@ -1,2 +1,2 @@
 # CEClub_QuestionsHandler
-This is my python code fpr taking care with Sunday meetin's questions
+This is my python code for taking care with Sunday meetin's questions
