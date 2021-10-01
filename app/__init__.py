@@ -3,6 +3,7 @@ import pandas as pd
 
 #my imports
 import app.file_handlers
+import app.data_handlers
 
 
 
@@ -33,8 +34,5 @@ def main(config: "Config", filename: str):
                         header=config.HEADER_ROW,
                         index_col=config.INDEX_COLUMN)
 
-    with open(os.path.join(location, 'questions.txt'), 'w') as f:
-        for index, row in df.itertuples():
-            # iterate row by row through the questions
-            f.write(f'{row}\n')
+    data_handlers.handle_data(df=df, config=config)
         
