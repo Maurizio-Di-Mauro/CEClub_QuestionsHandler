@@ -14,6 +14,7 @@ class Config:
 
     # configuration for pandas
     HEADER_ROW = 0 # index (not including skipped rows) of a header row
+    INDEX_COLUMN = 0 # "Name" columns
 
     def get_result_location(self) -> str:
         return os.path.join(self.RESULTS_LOCATION)

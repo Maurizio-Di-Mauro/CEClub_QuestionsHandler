@@ -30,7 +30,11 @@ def main(config: "Config", filename: str):
         os.makedirs(location)
 
     df = pd.read_excel(os.path.join(config.DATA_LOCATION, filename),
-                        header=config.HEADER_ROW)
+                        header=config.HEADER_ROW,
+                        index_col=config.INDEX_COLUMN)
 
-    print(df)
-    
+    with open(os.path.join(location, 'questions.txt'), 'w') as f:
+        for index, row in df.itertuples():
+            # iterate row by row through the questions
+            f.write(f'{row}\n')
+        
