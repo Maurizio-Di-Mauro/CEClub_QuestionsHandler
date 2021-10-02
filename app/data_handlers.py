@@ -24,9 +24,9 @@ def handle_data(df: "DataFrame", config: "Config"):
         question: str = process_question(row)
         questions.append(question)
 
-    pages: [[str]] = form_pages(questions)
+    # pages: [[str]] = form_pages(questions)
     with open(os.path.join(config.RESULTS_LOCATION, "questions.html"), "w") as f:
-        f.write(template.render(pages=pages))
+        f.write(template.render(questions=questions))
 
 
 def process_question(question: str) -> str:
@@ -41,22 +41,3 @@ def process_question(question: str) -> str:
         return None
 
     return question
-
-
-def form_pages(questions: [str]) -> [[str]]:
-    amount = len(questions)
-    # round up without using any libraries
-    num_of_pages_needed: int = int(amount/12) + (amount%12 > 0)
-
-    pages: [[str]] = []
-    start_index = 0
-    end_index = amount if amount < 12 else 12
-
-    for i in range(num_of_pages_needed):
-        pages.append(questions[start_index:end_index])
-        start_index += 12
-        if end_index + 12 > amount:
-            end_index = amount
-        else:
-            end_index += 12
-    return pages

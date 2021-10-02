@@ -12,14 +12,13 @@ body {
 
 section.page {
     width: 21cm;
-    height: 29.7cm;
     margin: 0;
     padding: 0;
 
     display: grid;
 
     grid-template-columns: repeat(auto-fit, 10cm);
-    grid-auto-rows: 4.5cm;
+    grid-auto-rows: 2.5cm;
 }
 
 div.card {
@@ -49,8 +48,10 @@ div.card:nth-child(even) {
 </style>
 </head>
 <body>
-{% for page in pages %}
-    {% include "_page.html" %}
-{% endfor %}
+<section class="page">
+    {% for question in questions %}
+        <div class="card">{{ question }}</div>
+    {% endfor %}
+</section>
 </body>
 </html>
