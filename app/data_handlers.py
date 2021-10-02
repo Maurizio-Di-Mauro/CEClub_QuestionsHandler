@@ -18,6 +18,7 @@ def handle_data(df: "DataFrame", config: "Config"):
     template = jinja_env.get_template('questions_template.html')
 
     # process the data
+    df.dropna(inplace=True) # skip empty rows
     questions: [str] = []
     for index, row in df.itertuples():
         question: str = process_question(row)
