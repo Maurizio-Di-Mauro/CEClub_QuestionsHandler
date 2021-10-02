@@ -25,7 +25,7 @@ def main(config: "Config", filename: str):
     file_handlers.file_validation(file_location=config.DATA_LOCATION, 
                                                             filename=filename)
 
-    location = config.get_result_location()
+    location = config.RESULTS_LOCATION
     # create folders (directories) for the results, if they don't exist
     if not os.path.exists(location):
         os.makedirs(location)

@@ -22,9 +22,9 @@ def handle_data(df: "DataFrame", config: "Config"):
     questions: [str] = []
     for index, row in df.itertuples():
         question: str = process_question(row)
-        questions.append(question)
+        if question is not None:
+            questions.append(question)
 
-    # pages: [[str]] = form_pages(questions)
     with open(os.path.join(config.RESULTS_LOCATION, "questions.html"), "w") as f:
         f.write(template.render(questions=questions))
 
@@ -37,7 +37,6 @@ def process_question(question: str) -> str:
     try:
         question = str(question).strip()
     except:
-        print("there was an error in row")
         return None
 
     return question
