@@ -1,4 +1,5 @@
 import os
+import re # regular expressions for removing whitespaces
 from datetime import datetime
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -38,5 +39,8 @@ def process_question(question: str) -> str:
         question = str(question).strip()
     except:
         return None
+
+    # get rid of extra spaces between words
+    question = re.sub(" +", " ", question)
 
     return question
