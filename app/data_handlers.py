@@ -40,7 +40,21 @@ def process_question(question: str) -> str:
     except:
         return None
 
-    # get rid of extra spaces between words
-    question = re.sub(" +", " ", question)
+    # get rid of extra space characters between words
+    question = re.sub(r"\s+", " ", question)
+
+    # Ignore one-word and two-word questions
+    if len(question.split()) < 3:
+        return None
+
+    # Ignore digits-only or "nonletter symbols" only questions
+    test_question = re.sub(" ", "", question)
+    if re.fullmatch(r"[\d\W_]+", test_question):
+        return None
+
+    # Ignore questions that are only composed of one or two characters
+    test_question = test_question.lower()
+    if len(set(test_question)) < 3:
+        return None
 
     return question
