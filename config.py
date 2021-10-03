@@ -15,3 +15,6 @@ class Config:
     # configuration for pandas
     HEADER_ROW = 0 # index (not including skipped rows) of a header row
     INDEX_COLUMN = 0 # "Name" columns
+
+    def __init__(self, filename: str):
+        self.FILENAME: str = filename
