@@ -1,8 +1,10 @@
 import os
 import re # regular expressions for removing whitespaces
-from datetime import datetime
 
 from jinja2 import Environment, PackageLoader, select_autoescape
+
+# my imports
+from . import file_handlers
 
 
 
@@ -20,14 +22,28 @@ def handle_data(df: "DataFrame", config: "Config"):
 
     # process the data
     df.dropna(inplace=True) # skip empty rows
+    timestamps: ["datetime.datetime"] = []
     questions: [str] = []
     for index, row in df.itertuples():
+        # skip the question if it is already used
+        timestamp: "datetime.datetime" = index.to_pydatetime()
+        if file_handlers.is_question_printed(
+                                        timestamp, config.get_meta_location()):
+            continue
         question: str = process_question(row)
         if question is not None:
             questions.append(question)
+            timestamps.append(timestamp)
 
-    with open(os.path.join(config.RESULTS_LOCATION, "questions.html"), "w") as f:
+    if len(questions) == 0:
+        return
+
+    with open(os.path.join(config.get_results_filename()), "w") as f:
         f.write(template.render(questions=questions))
+
+    with open(config.get_meta_location(), "a") as f:
+        for timestamp in timestamps:
+            f.write(timestamp.strftime('%d-%m-%Y, %H:%M:%S') + '\n')
 
 
 def process_question(question: str) -> str:
@@ -48,7 +64,7 @@ def process_question(question: str) -> str:
         return None
 
     # Ignore digits-only or "nonletter symbols" only questions
-    test_question = re.sub(" ", "", question)
+    test_question: str = re.sub(" ", "", question)
     if re.fullmatch(r"[\d\W_]+", test_question):
         return None
 

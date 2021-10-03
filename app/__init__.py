@@ -17,9 +17,6 @@ def main(config: "Config"):
     Parameters:
     config -- a Config object with all needed configuration stored 
                                                                 inside;
-    excel_filename -- a string with filename of a table with data.
-                    The app expects it to be either: .csv, .xls, .xlsx
-                    Example: 'data.csv'
     """
     # if the file-path can't pass the check, this will raise an exception
     file_handlers.file_validation(file_location=config.DATA_LOCATION, 
@@ -29,6 +26,9 @@ def main(config: "Config"):
     # create folders (directories) for the results, if they don't exist
     if not os.path.exists(location):
         os.makedirs(location)
+
+    # prepare metafile
+    file_handlers.prepare_metafile(config.get_meta_location())
 
     df = pd.read_excel(os.path.join(config.DATA_LOCATION, config.FILENAME),
                         header=config.HEADER_ROW,
