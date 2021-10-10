@@ -25,13 +25,9 @@ def prepare_metafile(metafile: str):
             pass
 
 
-
-def is_question_printed(timestamp: datetime, metafile: str) -> bool:
-    str_ts: str = timestamp.strftime('%d-%m-%Y, %H:%M:%S')
+def read_metadata(metafile: str) -> [str]:
+    metadata: [str] = []
     with open(metafile, 'r') as f:
         for line in f:
-            # loop through lines
-            if str_ts == line.rstrip():
-                # if there is such timestamp, stop looping
-                return True
-        return False
+            metadata.append(line.rstrip())
+    return metadata

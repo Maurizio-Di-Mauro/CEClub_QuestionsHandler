@@ -1,20 +1,21 @@
 import os
-from datetime import datetime
 
 
 
 
 class Config:
     """All my configurations are stored here, in Config"""
-    DATA_LOCATION = "data" #here is stored location of excel tables directory.
+    # In DATA_LOCATIONis stored location of excel tables directory.
+    DATA_LOCATION = "data"
     RESULTS_LOCATION = "results"
     RESULTS_FILENAME = "questions.html"
     FILENAME = "questions.xlsx"
     META_FILENAME = "questions_meta.txt"
 
     # for jinja locations
-    JINJA_APP_LOCATION = "app" #your application python package
-    JINJA_TEMPLATES_LOCATION = "templates" #folder with your templates in app
+    JINJA_APP_LOCATION = "app" # your application python package
+    # folder with your Jinja templates for app
+    JINJA_TEMPLATES_LOCATION = "templates"
 
     # configuration for pandas
     HEADER_ROW = 0 # index (not including skipped rows) of a header row
@@ -26,10 +27,11 @@ class Config:
         if meta_filename != "":
             self.META_FILENAME = meta_filename
 
+    def get_data_location(self) -> str:
+        return os.path.join(self.DATA_LOCATION, self.FILENAME)
+
     def get_meta_location(self) -> str:
         return os.path.join(self.RESULTS_LOCATION, self.META_FILENAME)
 
     def get_results_filename(self) -> str:
-        filename: str = datetime.now().strftime('%d-%m-%YT%H:%M:%S') + "_" + \
-                                                        self.RESULTS_FILENAME
-        return os.path.join(self.RESULTS_LOCATION,filename)
+        return os.path.join(self.RESULTS_LOCATION, self.RESULTS_FILENAME)
