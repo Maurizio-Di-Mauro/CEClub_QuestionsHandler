@@ -5,6 +5,8 @@ import os
 
 class Config:
     """All my configurations are stored here, in Config"""
+    IS_TESTING = True # If set to False
+
     # In DATA_LOCATIONis stored location of excel tables directory.
     DATA_LOCATION = "data"
     RESULTS_LOCATION = "results"
@@ -35,3 +37,6 @@ class Config:
 
     def get_results_filename(self) -> str:
         return os.path.join(self.RESULTS_LOCATION, self.RESULTS_FILENAME)
+
+    def set_is_testing(self, is_testing: bool):
+        self.IS_TESTING = bool(is_testing)
