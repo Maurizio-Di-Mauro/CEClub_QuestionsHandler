@@ -1,11 +1,12 @@
 import os
+from app import utility
 
 
 
 
 class Config:
     """All my configurations are stored here, in Config"""
-    IS_TESTING = True # If set to False
+    IS_TESTING = True # If set to False, questions will be printed
 
     # In DATA_LOCATIONis stored location of excel tables directory.
     DATA_LOCATION = "data"
@@ -33,10 +34,14 @@ class Config:
         return os.path.join(self.DATA_LOCATION, self.FILENAME)
 
     def get_meta_location(self) -> str:
-        return os.path.join(self.RESULTS_LOCATION, self.META_FILENAME)
+        return self.get_file_path(self.RESULTS_LOCATION, self.META_FILENAME)
 
-    def get_results_filename(self) -> str:
-        return os.path.join(self.RESULTS_LOCATION, self.RESULTS_FILENAME)
+    def get_results_file_path(self) -> str:
+        return self.get_file_path(self.RESULTS_LOCATION, self.RESULTS_FILENAME)
 
-    def set_is_testing(self, is_testing: bool):
+    def get_file_path(self, dirname: str, filename: str) -> str:
+        filename = utility.get_current_sunday().strftime("%d-%m-%y") + filename
+        return os.path.join(dirname, filename)
+
+    def set_is_testing(self, is_testing: bool = True):
         self.IS_TESTING = bool(is_testing)

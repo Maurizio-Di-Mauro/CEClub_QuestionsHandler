@@ -1,10 +1,11 @@
 import os
 import re # regular expressions for removing whitespaces
+from datetime import datetime, timedelta
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 # my imports
-from . import file_handlers
+from . import file_handlers, utility
 
 
 
@@ -38,7 +39,7 @@ def handle_data(df: "DataFrame", config: "Config"):
     if len(questions) == 0:
         return
 
-    with open(os.path.join(config.get_results_filename()), "a") as f:
+    with open(config.get_results_file_path(), "a") as f:
         f.write(template.render(questions=questions))
 
     with open(config.get_meta_location(), "a") as f:
