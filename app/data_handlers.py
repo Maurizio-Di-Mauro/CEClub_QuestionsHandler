@@ -27,8 +27,12 @@ def handle_data(df: "DataFrame", config: "Config"):
     timestamps: [str] = []
     questions: [str] = []
     for index, row in df.itertuples():
+        timestamp: datetime = index.to_pydatetime()
+        # skip the question if it is from previous week
+        if timestamp < utility.get_last_sunday():
+            continue
         # skip the question if it is already used
-        timestamp: str = index.to_pydatetime().strftime('%d-%m-%Y, %H:%M:%S')
+        timestamp: str = timestamp.strftime('%d-%m-%Y, %H:%M:%S')
         if timestamp in metadata:
             continue
         question: str = process_question(row)
@@ -39,12 +43,13 @@ def handle_data(df: "DataFrame", config: "Config"):
     if len(questions) == 0:
         return
 
-    with open(config.get_results_file_path(), "a") as f:
-        f.write(template.render(questions=questions))
-
-    with open(config.get_meta_location(), "a") as f:
-        for timestamp in timestamps:
-            f.write(timestamp + '\n')
+    file_handlers.render_results(
+        questions=questions,
+        timestamps=timestamps, 
+        filename=config.get_results_file_path(), 
+        metafile=config.get_meta_location(),
+        template=template
+    )
 
 
 def process_question(question: str) -> str:
