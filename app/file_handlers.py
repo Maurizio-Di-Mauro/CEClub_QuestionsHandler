@@ -33,17 +33,12 @@ def read_metadata(metafile: str) -> [str]:
     return metadata
 
 
-def write_metadata(timestamps: [str], metafile: str):
-    with open(metafile, "a") as f:
-        for timestamp in timestamps:
-            f.write(timestamp + '\n')
-
-
 def render_results(questions: [str], timestamps: [str], filename: str, 
                                                     metafile: str, template):
-    # render collected questions into template
     with open(filename, "a") as f:
         f.write(template.render(questions=questions))
 
-    write_metadata(timestamps, metafile)
+    with open(metafile, "a") as f:
+        for timestamp in timestamps:
+            f.write(timestamp + '\n')
 
