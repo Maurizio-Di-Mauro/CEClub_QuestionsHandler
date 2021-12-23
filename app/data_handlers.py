@@ -23,7 +23,6 @@ def handle_data(df: "DataFrame", config: "Config"):
 
     # process the data
     df.dropna(inplace=True) # skip empty rows
-    metadata: [str] = file_handlers.read_metadata(config.get_meta_location())
     timestamps: [str] = []
     questions: [str] = []
     for index, row in df.itertuples():
@@ -31,21 +30,15 @@ def handle_data(df: "DataFrame", config: "Config"):
         # skip the question if it is from previous week
         if timestamp < utility.get_last_sunday():
             continue
-        # skip the question if it is already used
-        timestamp: str = timestamp.strftime('%d-%m-%Y, %H:%M:%S')
-        if timestamp in metadata:
-            continue
         question: str = process_question(row)
         if question is not None:
             questions.append(question)
-            timestamps.append(timestamp)
 
     if len(questions) == 0:
         return
 
     file_handlers.render_results(
         questions=questions,
-        timestamps=timestamps, 
         filename=config.get_results_file_path(), 
         metafile=config.get_meta_location(),
         template=template

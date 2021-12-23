@@ -27,11 +27,11 @@ def main(config: "Config"):
     if not os.path.exists(location):
         os.makedirs(location)
 
-    if input("Do you need to print questions? Y/N: ") in ("Y", "y"):
-        config.set_is_testing(False)
+    # if input("Do you need to print questions? Y/N: ") in ("Y", "y"):
+    #     config.set_is_testing(False)
 
     # prepare metafile
-    file_handlers.prepare_metafile(config.get_meta_location())
+    # file_handlers.prepare_metafile(config.get_meta_location())
 
     df = pd.read_excel(os.path.join(config.DATA_LOCATION, config.FILENAME),
                         header=config.HEADER_ROW,
